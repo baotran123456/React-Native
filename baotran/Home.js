@@ -5,7 +5,7 @@ export default function Home({ navigation }) {
   return (
     <View style={styles.container}>
 
-      <Text>Home View asfdsgfdg</Text>
+      <Text>Home View </Text>
       <View style={styles.button}>
         <Button onPress={() => navigation.navigate('Profile')} title='Profile '></Button>
       </View>
