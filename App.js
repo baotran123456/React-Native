@@ -1,20 +1,58 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export default function App() {
+import HomeScreen from './baotran/Home'
+import ProfileScreen from './baotran/Profile'
+import AlbumScreen from './baotran/Album'
+
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+const Tab = createBottomTabNavigator();
+
+function MyTabs() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Tab.Navigator>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Settings" component={AlbumScreen} />
+    </Tab.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const Stack = createNativeStackNavigator();
+
+const MyStack = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ title: 'Home' }}
+        />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="Album" component={AlbumScreen} />
+      </Stack.Navigator>
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, size, colour}) => {
+          let iconName;
+          if (route.name === "Home"){
+            iconName = focused ? 'ios-home' : 'ios-home-outline';
+          } 
+          else if (route.name === "Profile"){
+            iconName = focused ? 'ios-person' : 'ios-person-outline';
+          }
+          else if (route.name === "Album"){
+            iconName = focused ? 'ios-albums' : 'ios-albums-outline';
+          }
+          return <Ionic name={iconName} size={size} colour={colour}/>
+        },
+
+      })}
+      <Tab.Screen name="Home" component={MyTabs} />
+      <Tab.Screen name="Settings" component={AlbumScreen} />
+    </NavigationContainer>
+  );
+};
+
+export default MyStack
